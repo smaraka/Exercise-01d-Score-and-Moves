@@ -190,6 +190,7 @@ world = {
       "name": "Kitchen",
       "tags": "",
       "id": "7",
+	  "score": 20,
       "text": "You are in the kitchen of the white house. A table seems to have been used recently for the preparation of food. A passage leads to the west and a dark staircase can be seen leading upward. A dark chimney leads down and to the east is a small window which is open.\n\n[[EAST->East of House]]",
       "links": [
         {
@@ -205,6 +206,7 @@ world = {
       "name": "Tree",
       "tags": "",
       "id": "8",
+	  "score": 10,
       "text": "You are about 10 feet above the ground nestled among some large branches. The nearest branch above you is above your reach. Beside you on the branch is a small bird's nest.\n\n[[DOWN->Sunlit Forest]]",
       "links": [
         {
@@ -235,6 +237,8 @@ def render(current_location, score, moves):
 	if "name" in current_location and "cleanText" in current_location:
 		print("You are at the " + str(current_location["name"]))
 		print(current_location["cleanText"] + "\n")
+		print("Moves: {m}, Score: {s}".format(m = moves, s = score))
+		# print("Moves: " + str(moves) + ", Score: " + str(score))
 
 def get_input():
 	response = input("What do you want to do? ")
@@ -261,10 +265,15 @@ score = 0
 moves = 0
 
 while True:
+
+	moves+=1
+
 	if response == "QUIT":
 		break
 	location_label = update(current_location, location_label, response)
 	current_location = find_current_location(location_label)
+	if "score" in current_location:
+		score += current_location["score"]
 	render(current_location, score, moves)
 	response = get_input()
 
